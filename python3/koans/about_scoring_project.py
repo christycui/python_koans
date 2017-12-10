@@ -33,8 +33,31 @@ from runner.koan import *
 # Your goal is to write the score method.
 
 def score(dice):
-    # You need to write this method
-    pass
+    from collections import Counter
+    table = Counter(dice)
+    score = 0
+
+    # find a set of threes
+    set_of_threes = [k for k, v in table.items() if v >= 3]
+    for num in set_of_threes:
+        if num == 1:
+            score += 1000
+        else:
+            score += num*100
+
+    # find extra ones
+    if table[1] >= 3:
+        score += 100*(table[1]-3)
+    else:
+        score += 100*table[1]
+
+    # find extra fives
+    if table[5] >= 3:
+        score += 50*(table[5]-3)
+    else:
+        score += 50*table[5]
+
+    return score
 
 class AboutScoringProject(Koan):
     def test_score_of_an_empty_list_is_zero(self):
